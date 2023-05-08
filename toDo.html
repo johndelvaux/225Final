@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Todo List</title>
+</head>
+<body>
+  <h1>Todo List</h1>
+  <p>Number of tasks: <span id="task-count">0</span></p>
+  <label for="new-task-input">New Task:</label>
+  <input type="text" id="new-task-input">
+  <button id="add-task-btn">Add Task</button>
+  <ul id="todo-list" class="todo-list"></ul>
+
+  <script>
+    let taskCount = 0;
+    const todoList = document.getElementById("todo-list");
+    const taskCountElem = document.getElementById("task-count");
+
+    function createTodoItem() {
+      const newTaskInput = document.getElementById("new-task-input");
+      const taskName = newTaskInput.value.trim();
+
+      if (!taskName) {
+        return;
+      }
+
+      newTaskInput.value = "";
+
+      taskCount++;
+      taskCountElem.innerText = taskCount;
+
+      const todoItem = document.createElement("li");
+      todoItem.classList.add("todo-item");
+
+      const todoItemText = document.createElement("span");
+      todoItemText.classList.add("todo-item-text");
+      todoItemText.innerText = taskName;
+
+      const completeBtn = document.createElement("button");
+      completeBtn.classList.add("complete-btn");
+      completeBtn.innerText = "Complete";
+      completeBtn.addEventListener("click", () => {
+        todoList.removeChild(todoItem);
+
+        taskCount--;
+        taskCountElem.innerText = taskCount;
+      });
+
+      todoItem.appendChild(todoItemText);
+      todoItem.appendChild(completeBtn);
+      todoList.appendChild(todoItem);
+    }
+
+    const addTaskBtn = document.getElementById("add-task-btn");
+    addTaskBtn.addEventListener("click", createTodoItem);
+
+    const newTaskInput = document.getElementById("new-task-input");
+    newTaskInput.addEventListener("keyup", (event) => {
+      if (event.key === "Enter") {
+        createTodoItem();
+      }
+    });
+  </script>
+</body>
+</html>
